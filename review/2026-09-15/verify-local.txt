@@ -1,0 +1,423 @@
+﻿[PASS] layout
+[PASS] Python dependencies
+[FAIL] Python, independent schema and cross-language regression tests
+
+...........................................FFFFFFFFFFFFFFFF..F..F...F.FF....F.
+======================================================================
+FAIL: test_all_result_statuses_reasons_and_empty_operations (test_regressions.RepairRegressionTests.test_all_result_statuses_reasons_and_empty_operations) (status='ACCEPTED', ops=[], reason=None)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\aml-verify\tests\test_regressions.py", line 110, in test_all_result_statuses_reasons_and_empty_operations
+    self.assertEqual(self.roundtrip(frame('result',body))['body'],body)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\aml-verify\tests\test_regressions.py", line 51, in roundtrip
+    self.assertEqual(foreign[0]['wire'],wire)
+AssertionError: '!AML:2|RES|demo|observerÃ¢â€ â€™gw|1|1000000|30000|rel:m77|*ACC:' != '!AML:2|RES|demo|observerâ†’gw|1|1000000|30000|rel:m77|*ACC:'
+- !AML:2|RES|demo|observerÃ¢â€ â€™gw|1|1000000|30000|rel:m77|*ACC:
+?                         ^^^
++ !AML:2|RES|demo|observerâ†’gw|1|1000000|30000|rel:m77|*ACC:
+?                         ^
+
+
+======================================================================
+FAIL: test_all_result_statuses_reasons_and_empty_operations (test_regressions.RepairRegressionTests.test_all_result_statuses_reasons_and_empty_operations) (status='ACCEPTED', ops=[], reason={'code': 'LOW_AMMO', 'evidence': ['A11']})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\aml-verify\tests\test_regressions.py", line 110, in test_all_result_statuses_reasons_and_empty_operations
+    self.assertEqual(self.roundtrip(frame('result',body))['body'],body)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\aml-verify\tests\test_regressions.py", line 51, in roundtrip
+    self.assertEqual(foreign[0]['wire'],wire)
+AssertionError: '!AML:2|RES|demo|observerÃ¢â€ â€™gw|1|1000000|30000|rel:m77|*ACC:|rs:LOW_AMMO[#A11]' != '!AML:2|RES|demo|observerâ†’gw|1|1000000|30000|rel:m77|*ACC:|rs:LOW_AMMO[#A11]'
+- !AML:2|RES|demo|observerÃ¢â€ â€™gw|1|1000000|30000|rel:m77|*ACC:|rs:LOW_AMMO[#A11]
+?                         ^^^
++ !AML:2|RES|demo|observerâ†’gw|1|1000000|30000|rel:m77|*ACC:|rs:LOW_AMMO[#A11]
+?                         ^
+
+
+======================================================================
+FAIL: test_all_result_statuses_reasons_and_empty_operations (test_regressions.RepairRegressionTests.test_all_result_statuses_reasons_and_empty_operations) (status='ACCEPTED', ops=['op1', 'op2'], reason=None)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\aml-verify\tests\test_regressions.py", line 110, in test_all_result_statuses_reasons_and_empty_operations
+    self.assertEqual(self.roundtrip(frame('result',body))['body'],body)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\aml-verify\tests\test_regressions.py", line 51, in roundtrip
+    self.assertEqual(foreign[0]['wire'],wire)
+AssertionError: '!AML:2|RES|demo|observerÃ¢â€ â€™gw|1|1000000|30000|rel:m77|*ACC:#op1,#op2' != '!AML:2|RES|demo|observerâ†’gw|1|1000000|30000|rel:m77|*ACC:#op1,#op2'
+- !AML:2|RES|demo|observerÃ¢â€ â€™gw|1|1000000|30000|rel:m77|*ACC:#op1,#op2
+?                         ^^^
++ !AML:2|RES|demo|observerâ†’gw|1|1000000|30000|rel:m77|*ACC:#op1,#op2
+?                         ^
+
+
+======================================================================
+FAIL: test_all_result_statuses_reasons_and_empty_operations (test_regressions.RepairRegressionTests.test_all_result_statuses_reasons_and_empty_operations) (status='ACCEPTED', ops=['op1', 'op2'], reason={'code': 'LOW_AMMO', 'evidence': ['A11']})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\aml-verify\tests\test_regressions.py", line 110, in test_all_result_statuses_reasons_and_empty_operations
+    self.assertEqual(self.roundtrip(frame('result',body))['body'],body)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\aml-verify\tests\test_regressions.py", line 51, in roundtrip
+    self.assertEqual(foreign[0]['wire'],wire)
+AssertionError: '!AML[15 chars]erverÃ¢â€ â€™gw|1|1000000|30000|rel:m77|*ACC:#op1,#[17 chars]A11]' != '!AML[15 chars]erverâ†’gw|1|1000000|30000|rel:m77|*ACC:#op1,#op[15 chars]A11]'
+- !AML:2|RES|demo|observerÃ¢â€ â€™gw|1|1000000|30000|rel:m77|*ACC:#op1,#op2|rs:LOW_AMMO[#A11]
+?                         ^^^
++ !AML:2|RES|demo|observerâ†’gw|1|1000000|30000|rel:m77|*ACC:#op1,#op2|rs:LOW_AMMO[#A11]
+?                         ^
+
+
+======================================================================
+FAIL: test_all_result_statuses_reasons_and_empty_operations (test_regressions.RepairRegressionTests.test_all_result_statuses_reasons_and_empty_operations) (status='EXECUTED', ops=[], reason=None)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\aml-verify\tests\test_regressions.py", line 110, in test_all_result_statuses_reasons_and_empty_operations
+    self.assertEqual(self.roundtrip(frame('result',body))['body'],body)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\aml-verify\tests\test_regressions.py", line 51, in roundtrip
+    self.assertEqual(foreign[0]['wire'],wire)
+AssertionError: '!AML:2|RES|demo|observerÃ¢â€ â€™gw|1|1000000|30000|rel:m77|*EXEC:' != '!AML:2|RES|demo|observerâ†’gw|1|1000000|30000|rel:m77|*EXEC:'
+- !AML:2|RES|demo|observerÃ¢â€ â€™gw|1|1000000|30000|rel:m77|*EXEC:
+?                         ^^^
++ !AML:2|RES|demo|observerâ†’gw|1|1000000|30000|rel:m77|*EXEC:
+?                         ^
+
+
+======================================================================
+FAIL: test_all_result_statuses_reasons_and_empty_operations (test_regressions.RepairRegressionTests.test_all_result_statuses_reasons_and_empty_operations) (status='EXECUTED', ops=[], reason={'code': 'LOW_AMMO', 'evidence': ['A11']})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\aml-verify\tests\test_regressions.py", line 110, in test_all_result_statuses_reasons_and_empty_operations
+    self.assertEqual(self.roundtrip(frame('result',body))['body'],body)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\aml-verify\tests\test_regressions.py", line 51, in roundtrip
+    self.assertEqual(foreign[0]['wire'],wire)
+AssertionError: '!AML:2|RES|demo|observerÃ¢â€ â€™gw|1|1000000|30000|rel:m77|*EXEC:|rs:LOW_AMMO[#A11]' != '!AML:2|RES|demo|observerâ†’gw|1|1000000|30000|rel:m77|*EXEC:|rs:LOW_AMMO[#A11]'
+- !AML:2|RES|demo|observerÃ¢â€ â€™gw|1|1000000|30000|rel:m77|*EXEC:|rs:LOW_AMMO[#A11]
+?                         ^^^
++ !AML:2|RES|demo|observerâ†’gw|1|1000000|30000|rel:m77|*EXEC:|rs:LOW_AMMO[#A11]
+?                         ^
+
+
+======================================================================
+FAIL: test_all_result_statuses_reasons_and_empty_operations (test_regressions.RepairRegressionTests.test_all_result_statuses_reasons_and_empty_operations) (status='EXECUTED', ops=['op1', 'op2'], reason=None)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\aml-verify\tests\test_regressions.py", line 110, in test_all_result_statuses_reasons_and_empty_operations
+    self.assertEqual(self.roundtrip(frame('result',body))['body'],body)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\aml-verify\tests\test_regressions.py", line 51, in roundtrip
+    self.assertEqual(foreign[0]['wire'],wire)
+AssertionError: '!AML:2|RES|demo|observerÃ¢â€ â€™gw|1|1000000|30000|rel:m77|*EXEC:#op1,#op2' != '!AML:2|RES|demo|observerâ†’gw|1|1000000|30000|rel:m77|*EXEC:#op1,#op2'
+- !AML:2|RES|demo|observerÃ¢â€ â€™gw|1|1000000|30000|rel:m77|*EXEC:#op1,#op2
+?                         ^^^
++ !AML:2|RES|demo|observerâ†’gw|1|1000000|30000|rel:m77|*EXEC:#op1,#op2
+?                         ^
+
+
+======================================================================
+FAIL: test_all_result_statuses_reasons_and_empty_operations (test_regressions.RepairRegressionTests.test_all_result_statuses_reasons_and_empty_operations) (status='EXECUTED', ops=['op1', 'op2'], reason={'code': 'LOW_AMMO', 'evidence': ['A11']})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\aml-verify\tests\test_regressions.py", line 110, in test_all_result_statuses_reasons_and_empty_operations
+    self.assertEqual(self.roundtrip(frame('result',body))['body'],body)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\aml-verify\tests\test_regressions.py", line 51, in roundtrip
+    self.assertEqual(foreign[0]['wire'],wire)
+AssertionError: '!AML[15 chars]erverÃ¢â€ â€™gw|1|1000000|30000|rel:m77|*EXEC:#op1,[18 chars]A11]' != '!AML[15 chars]erverâ†’gw|1|1000000|30000|rel:m77|*EXEC:#op1,#o[16 chars]A11]'
+- !AML:2|RES|demo|observerÃ¢â€ â€™gw|1|1000000|30000|rel:m77|*EXEC:#op1,#op2|rs:LOW_AMMO[#A11]
+?                         ^^^
++ !AML:2|RES|demo|observerâ†’gw|1|1000000|30000|rel:m77|*EXEC:#op1,#op2|rs:LOW_AMMO[#A11]
+?                         ^
+
+
+======================================================================
+FAIL: test_all_result_statuses_reasons_and_empty_operations (test_regressions.RepairRegressionTests.test_all_result_statuses_reasons_and_empty_operations) (status='REJECTED', ops=[], reason=None)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\aml-verify\tests\test_regressions.py", line 110, in test_all_result_statuses_reasons_and_empty_operations
+    self.assertEqual(self.roundtrip(frame('result',body))['body'],body)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\aml-verify\tests\test_regressions.py", line 51, in roundtrip
+    self.assertEqual(foreign[0]['wire'],wire)
+AssertionError: '!AML:2|RES|demo|observerÃ¢â€ â€™gw|1|1000000|30000|rel:m77|*REJ:' != '!AML:2|RES|demo|observerâ†’gw|1|1000000|30000|rel:m77|*REJ:'
+- !AML:2|RES|demo|observerÃ¢â€ â€™gw|1|1000000|30000|rel:m77|*REJ:
+?                         ^^^
++ !AML:2|RES|demo|observerâ†’gw|1|1000000|30000|rel:m77|*REJ:
+?                         ^
+
+
+======================================================================
+FAIL: test_all_result_statuses_reasons_and_empty_operations (test_regressions.RepairRegressionTests.test_all_result_statuses_reasons_and_empty_operations) (status='REJECTED', ops=[], reason={'code': 'LOW_AMMO', 'evidence': ['A11']})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\aml-verify\tests\test_regressions.py", line 110, in test_all_result_statuses_reasons_and_empty_operations
+    self.assertEqual(self.roundtrip(frame('result',body))['body'],body)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\aml-verify\tests\test_regressions.py", line 51, in roundtrip
+    self.assertEqual(foreign[0]['wire'],wire)
+AssertionError: '!AML:2|RES|demo|observerÃ¢â€ â€™gw|1|1000000|30000|rel:m77|*REJ:|rs:LOW_AMMO[#A11]' != '!AML:2|RES|demo|observerâ†’gw|1|1000000|30000|rel:m77|*REJ:|rs:LOW_AMMO[#A11]'
+- !AML:2|RES|demo|observerÃ¢â€ â€™gw|1|1000000|30000|rel:m77|*REJ:|rs:LOW_AMMO[#A11]
+?                         ^^^
++ !AML:2|RES|demo|observerâ†’gw|1|1000000|30000|rel:m77|*REJ:|rs:LOW_AMMO[#A11]
+?                         ^
+
+
+======================================================================
+FAIL: test_all_result_statuses_reasons_and_empty_operations (test_regressions.RepairRegressionTests.test_all_result_statuses_reasons_and_empty_operations) (status='REJECTED', ops=['op1', 'op2'], reason=None)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\aml-verify\tests\test_regressions.py", line 110, in test_all_result_statuses_reasons_and_empty_operations
+    self.assertEqual(self.roundtrip(frame('result',body))['body'],body)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\aml-verify\tests\test_regressions.py", line 51, in roundtrip
+    self.assertEqual(foreign[0]['wire'],wire)
+AssertionError: '!AML:2|RES|demo|observerÃ¢â€ â€™gw|1|1000000|30000|rel:m77|*REJ:#op1,#op2' != '!AML:2|RES|demo|observerâ†’gw|1|1000000|30000|rel:m77|*REJ:#op1,#op2'
+- !AML:2|RES|demo|observerÃ¢â€ â€™gw|1|1000000|30000|rel:m77|*REJ:#op1,#op2
+?                         ^^^
++ !AML:2|RES|demo|observerâ†’gw|1|1000000|30000|rel:m77|*REJ:#op1,#op2
+?                         ^
+
+
+======================================================================
+FAIL: test_all_result_statuses_reasons_and_empty_operations (test_regressions.RepairRegressionTests.test_all_result_statuses_reasons_and_empty_operations) (status='REJECTED', ops=['op1', 'op2'], reason={'code': 'LOW_AMMO', 'evidence': ['A11']})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\aml-verify\tests\test_regressions.py", line 110, in test_all_result_statuses_reasons_and_empty_operations
+    self.assertEqual(self.roundtrip(frame('result',body))['body'],body)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\aml-verify\tests\test_regressions.py", line 51, in roundtrip
+    self.assertEqual(foreign[0]['wire'],wire)
+AssertionError: '!AML[15 chars]erverÃ¢â€ â€™gw|1|1000000|30000|rel:m77|*REJ:#op1,#[17 chars]A11]' != '!AML[15 chars]erverâ†’gw|1|1000000|30000|rel:m77|*REJ:#op1,#op[15 chars]A11]'
+- !AML:2|RES|demo|observerÃ¢â€ â€™gw|1|1000000|30000|rel:m77|*REJ:#op1,#op2|rs:LOW_AMMO[#A11]
+?                         ^^^
++ !AML:2|RES|demo|observerâ†’gw|1|1000000|30000|rel:m77|*REJ:#op1,#op2|rs:LOW_AMMO[#A11]
+?                         ^
+
+
+======================================================================
+FAIL: test_all_result_statuses_reasons_and_empty_operations (test_regressions.RepairRegressionTests.test_all_result_statuses_reasons_and_empty_operations) (status='FAILED', ops=[], reason=None)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\aml-verify\tests\test_regressions.py", line 110, in test_all_result_statuses_reasons_and_empty_operations
+    self.assertEqual(self.roundtrip(frame('result',body))['body'],body)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\aml-verify\tests\test_regressions.py", line 51, in roundtrip
+    self.assertEqual(foreign[0]['wire'],wire)
+AssertionError: '!AML:2|RES|demo|observerÃ¢â€ â€™gw|1|1000000|30000|rel:m77|*FAIL:' != '!AML:2|RES|demo|observerâ†’gw|1|1000000|30000|rel:m77|*FAIL:'
+- !AML:2|RES|demo|observerÃ¢â€ â€™gw|1|1000000|30000|rel:m77|*FAIL:
+?                         ^^^
++ !AML:2|RES|demo|observerâ†’gw|1|1000000|30000|rel:m77|*FAIL:
+?                         ^
+
+
+======================================================================
+FAIL: test_all_result_statuses_reasons_and_empty_operations (test_regressions.RepairRegressionTests.test_all_result_statuses_reasons_and_empty_operations) (status='FAILED', ops=[], reason={'code': 'LOW_AMMO', 'evidence': ['A11']})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\aml-verify\tests\test_regressions.py", line 110, in test_all_result_statuses_reasons_and_empty_operations
+    self.assertEqual(self.roundtrip(frame('result',body))['body'],body)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\aml-verify\tests\test_regressions.py", line 51, in roundtrip
+    self.assertEqual(foreign[0]['wire'],wire)
+AssertionError: '!AML:2|RES|demo|observerÃ¢â€ â€™gw|1|1000000|30000|rel:m77|*FAIL:|rs:LOW_AMMO[#A11]' != '!AML:2|RES|demo|observerâ†’gw|1|1000000|30000|rel:m77|*FAIL:|rs:LOW_AMMO[#A11]'
+- !AML:2|RES|demo|observerÃ¢â€ â€™gw|1|1000000|30000|rel:m77|*FAIL:|rs:LOW_AMMO[#A11]
+?                         ^^^
++ !AML:2|RES|demo|observerâ†’gw|1|1000000|30000|rel:m77|*FAIL:|rs:LOW_AMMO[#A11]
+?                         ^
+
+
+======================================================================
+FAIL: test_all_result_statuses_reasons_and_empty_operations (test_regressions.RepairRegressionTests.test_all_result_statuses_reasons_and_empty_operations) (status='FAILED', ops=['op1', 'op2'], reason=None)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\aml-verify\tests\test_regressions.py", line 110, in test_all_result_statuses_reasons_and_empty_operations
+    self.assertEqual(self.roundtrip(frame('result',body))['body'],body)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\aml-verify\tests\test_regressions.py", line 51, in roundtrip
+    self.assertEqual(foreign[0]['wire'],wire)
+AssertionError: '!AML:2|RES|demo|observerÃ¢â€ â€™gw|1|1000000|30000|rel:m77|*FAIL:#op1,#op2' != '!AML:2|RES|demo|observerâ†’gw|1|1000000|30000|rel:m77|*FAIL:#op1,#op2'
+- !AML:2|RES|demo|observerÃ¢â€ â€™gw|1|1000000|30000|rel:m77|*FAIL:#op1,#op2
+?                         ^^^
++ !AML:2|RES|demo|observerâ†’gw|1|1000000|30000|rel:m77|*FAIL:#op1,#op2
+?                         ^
+
+
+======================================================================
+FAIL: test_all_result_statuses_reasons_and_empty_operations (test_regressions.RepairRegressionTests.test_all_result_statuses_reasons_and_empty_operations) (status='FAILED', ops=['op1', 'op2'], reason={'code': 'LOW_AMMO', 'evidence': ['A11']})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\aml-verify\tests\test_regressions.py", line 110, in test_all_result_statuses_reasons_and_empty_operations
+    self.assertEqual(self.roundtrip(frame('result',body))['body'],body)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\aml-verify\tests\test_regressions.py", line 51, in roundtrip
+    self.assertEqual(foreign[0]['wire'],wire)
+AssertionError: '!AML[15 chars]erverÃ¢â€ â€™gw|1|1000000|30000|rel:m77|*FAIL:#op1,[18 chars]A11]' != '!AML[15 chars]erverâ†’gw|1|1000000|30000|rel:m77|*FAIL:#op1,#o[16 chars]A11]'
+- !AML:2|RES|demo|observerÃ¢â€ â€™gw|1|1000000|30000|rel:m77|*FAIL:#op1,#op2|rs:LOW_AMMO[#A11]
+?                         ^^^
++ !AML:2|RES|demo|observerâ†’gw|1|1000000|30000|rel:m77|*FAIL:#op1,#op2|rs:LOW_AMMO[#A11]
+?                         ^
+
+
+======================================================================
+FAIL: test_error_and_explain_query_match_schema (test_regressions.RepairRegressionTests.test_error_and_explain_query_match_schema)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\aml-verify\tests\test_regressions.py", line 115, in test_error_and_explain_query_match_schema
+    self.assertEqual(self.roundtrip(frame(kind,body))['body'],body)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\aml-verify\tests\test_regressions.py", line 51, in roundtrip
+    self.assertEqual(foreign[0]['wire'],wire)
+AssertionError: '!AML:2|ERR|demo|observerÃ¢â€ â€™gw|1|1000000|30000|err:RESYNC|rel:m7' != '!AML:2|ERR|demo|observerâ†’gw|1|1000000|30000|err:RESYNC|rel:m7'
+- !AML:2|ERR|demo|observerÃ¢â€ â€™gw|1|1000000|30000|err:RESYNC|rel:m7
+?                         ^^^
++ !AML:2|ERR|demo|observerâ†’gw|1|1000000|30000|err:RESYNC|rel:m7
+?                         ^
+
+
+======================================================================
+FAIL: test_integer_coordinates_and_percent_metrics_match (test_regressions.RepairRegressionTests.test_integer_coordinates_and_percent_metrics_match)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\aml-verify\tests\test_regressions.py", line 138, in test_integer_coordinates_and_percent_metrics_match
+    self.assertEqual(self.roundtrip(msg),msg)
+                     ^^^^^^^^^^^^^^^^^^^
+  File "C:\aml-verify\tests\test_regressions.py", line 51, in roundtrip
+    self.assertEqual(foreign[0]['wire'],wire)
+AssertionError: '!AML[17 chars]erverÃ¢â€ â€™gw|1|1000000|30000|w:Altis|r:1\n#A11:g[32 chars]0000' != '!AML[17 chars]erverâ†’gw|1|1000000|30000|w:Altis|r:1\n#A11:grp[30 chars]0000'
+- !AML:2|STATE|demo|observerÃ¢â€ â€™gw|1|1000000|30000|w:Altis|r:1
+?                           ^^^
++ !AML:2|STATE|demo|observerâ†’gw|1|1000000|30000|w:Altis|r:1
+?                           ^
+  #A11:grp:INF:20:@1250,1:%H92A90S0:t1000000
+
+
+======================================================================
+FAIL: test_null_full_upsert_clears_previous_value (test_regressions.RepairRegressionTests.test_null_full_upsert_clears_previous_value)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\aml-verify\tests\test_regressions.py", line 75, in test_null_full_upsert_clears_previous_value
+    decoded=self.roundtrip(msg)
+            ^^^^^^^^^^^^^^^^^^^
+  File "C:\aml-verify\tests\test_regressions.py", line 51, in roundtrip
+    self.assertEqual(foreign[0]['wire'],wire)
+AssertionError: '!AML[17 chars]erverÃ¢â€ â€™gw|2|1002000|30000|w:Altis|b:1|r:2\n+#[40 chars]2000' != '!AML[17 chars]erverâ†’gw|2|1002000|30000|w:Altis|b:1|r:2\n+#A1[38 chars]2000'
+- !AML:2|DELTA|demo|observerÃ¢â€ â€™gw|2|1002000|30000|w:Altis|b:1|r:2
+?                           ^^^
++ !AML:2|DELTA|demo|observerâ†’gw|2|1002000|30000|w:Altis|b:1|r:2
+?                           ^
+  +#A11:grp:INF:20:@1250,3420:%H100A-S0:t1002000
+
+
+======================================================================
+FAIL: test_partial_cannot_refresh_stale_target_or_evidence (test_regressions.RepairRegressionTests.test_partial_cannot_refresh_stale_target_or_evidence)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\aml-verify\tests\test_regressions.py", line 94, in test_partial_cannot_refresh_stale_target_or_evidence
+    d=self.roundtrip(delta(dict(id='A11',count=8),sent=NOW+40000))
+      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\aml-verify\tests\test_regressions.py", line 51, in roundtrip
+    self.assertEqual(foreign[0]['wire'],wire)
+AssertionError: '!AML:2|DELTA|demo|observerÃ¢â€ â€™gw|2|1040000|30000|w:Altis|b:1|r:2\n~#A11:cnt:8' != '!AML:2|DELTA|demo|observerâ†’gw|2|1040000|30000|w:Altis|b:1|r:2\n~#A11:cnt:8'
+- !AML:2|DELTA|demo|observerÃ¢â€ â€™gw|2|1040000|30000|w:Altis|b:1|r:2
+?                           ^^^
++ !AML:2|DELTA|demo|observerâ†’gw|2|1040000|30000|w:Altis|b:1|r:2
+?                           ^
+  ~#A11:cnt:8
+
+
+======================================================================
+FAIL: test_partial_role_count_survive_and_change_receiver (test_regressions.RepairRegressionTests.test_partial_role_count_survive_and_change_receiver)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\aml-verify\tests\test_regressions.py", line 61, in test_partial_role_count_survive_and_change_receiver
+    msg=self.roundtrip(delta(dict(id='A11',role='RECON',count=8)))
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\aml-verify\tests\test_regressions.py", line 51, in roundtrip
+    self.assertEqual(foreign[0]['wire'],wire)
+AssertionError: '!AML[17 chars]erverÃ¢â€ â€™gw|2|1002000|30000|w:Altis|b:1|r:2\n~#[14 chars]nt:8' != '!AML[17 chars]erverâ†’gw|2|1002000|30000|w:Altis|b:1|r:2\n~#A11:role:REC:cnt:8'
+- !AML:2|DELTA|demo|observerÃ¢â€ â€™gw|2|1002000|30000|w:Altis|b:1|r:2
+?                           ^^^
++ !AML:2|DELTA|demo|observerâ†’gw|2|1002000|30000|w:Altis|b:1|r:2
+?                           ^
+  ~#A11:role:REC:cnt:8
+
+
+======================================================================
+FAIL: test_supported_nam2_roundtrip (test_regressions.RepairRegressionTests.test_supported_nam2_roundtrip)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\aml-verify\tests\test_regressions.py", line 133, in test_supported_nam2_roundtrip
+    self.assertEqual(self.roundtrip(msg),msg)
+                     ^^^^^^^^^^^^^^^^^^^
+  File "C:\aml-verify\tests\test_regressions.py", line 51, in roundtrip
+    self.assertEqual(foreign[0]['wire'],wire)
+AssertionError: '!AML[17 chars]erverÃ¢â€ â€™gw|1|1000000|30000|s:17|tr:trace-1|w:A[52 chars]0000' != '!AML[17 chars]erverâ†’gw|1|1000000|30000|s:17|tr:trace-1|w:Alt[50 chars]0000'
+- !AML:2|STATE|demo|observerÃ¢â€ â€™gw|1|1000000|30000|s:17|tr:trace-1|w:Altis|r:1
+?                           ^^^
++ !AML:2|STATE|demo|observerâ†’gw|1|1000000|30000|s:17|tr:trace-1|w:Altis|r:1
+?                           ^
+  #A11:grp:INF:20:@1250,3420:%H100A90S0:t1000000
+
+
+----------------------------------------------------------------------
+Ran 63 tests in 1.965s
+
+FAILED (failures=22)
+[PASS] JavaScript tests
+âœ” AML Codec: State Keyframe serialization and roundtrip (2.9302ms)
+âœ” AML Codec: entity missing observed_ms is rejected at encode (0.344ms)
+âœ” AML Codec: entity row missing observation token is rejected at decode (0.1397ms)
+âœ” AML Codec: Delta mutations and state reconstruction (0.5243ms)
+âœ” AML Codec: Tactical Proposal and Action Mapping (0.4491ms)
+âœ” AML Codec: proposal action without op is rejected at encode (0.1245ms)
+âœ” AML Codec: action row without op is rejected at decode (0.1379ms)
+âœ” AML Codec: decoded action op is deterministic (no Math.random fallback) (0.2695ms)
+âœ” AML Codec: AUTONOMY action roundtrips (0.1992ms)
+âœ” AML Codec: Queries and Results (Supervisor-Executive Dialog) (0.9631ms)
+âœ” AML Codec: Task Handoff Protocol (0.2594ms)
+âœ” AML Codec: Error Handling & Invariant Enforcement (0.2142ms)
+âœ” AML Codec: NAM/2 schema and trace_id survive the compact projection (0.2211ms)
+âœ” AML Codec: frames without NAM/2 fields stay on the NAM/1 dialect (0.1183ms)
+â„¹ tests 14
+â„¹ suites 0
+â„¹ pass 14
+â„¹ fail 0
+â„¹ cancelled 0
+â„¹ skipped 0
+â„¹ todo 0
+â„¹ duration_ms 69.3803
+[PASS] GBNF equivalent-language check
+complete frames must parse and be allowed to terminate:
+  ok    HANDOFF
+  ok    STATE
+  ok    STATE with NAM/2 envelope
+  ok    DELTA
+  ok    PROP
+  ok    QUERY
+  ok    RES
+  ok    ERR
+malformed frames must be unreachable:
+  ok    unknown action
+  ok    full-word role
+  ok    wrong protocol version
+  ok    plain prose
+  ok    colon inside id
+truncated frames must parse but NOT be allowed to terminate:
+  ok    entity without t<ms>
+  ok    action without #op
+exact repetition boundaries:
+  ok    128 rows accepted
+  ok    129 rows rejected
+  ok    3 actions accepted
+  ok    4 actions rejected
+  ok    63-character hash rejected
+  ok    65-character hash rejected
+
+GBNF language checks passed after equivalent bounded expansion; native engine untested.
+[PASS] offline demo
+keyframe accepted, entities: ['A11', 'E02']
+proposal accepted, actions: ['ASSAULT', 'SET_ROE']
+ghost target rejected by receiver: invalid action target
+missing t<ms> rejected by codec: Invalid or incomplete AML syntax
+OFFLINE FAILED

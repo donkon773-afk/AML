@@ -1,0 +1,9 @@
+﻿python.exe : Running control and two random grammar-only probes...
+At line:4 char:1
++ & ".\.venv\Scripts\python.exe" scripts\llm_client_sdk.py --selftest-g ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (Running control...-only probes...:String) [], RemoteE 
+   xception
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+INCONCLUSIVE: unconstrained control did not follow the probe prompt

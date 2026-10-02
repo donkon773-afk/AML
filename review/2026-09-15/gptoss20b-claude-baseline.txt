@@ -1,0 +1,13 @@
+﻿  1/2 strict=0 lenient=0
+  2/2 strict=1 lenient=1
+
+without grammar, whole answer is a valid frame: 1/2 = 50.0%
+without grammar, a valid frame can be extracted: 1/2 = 50.0%
+Constrained completion/validity/quality rates must be measured separately.
+
+first failure was AMLError: Invalid or incomplete AML syntax
+model returned:
+------------------------------------------------------------
+!AML:2|STATE|obs→gw|2|1000000|30000|w:Altis|r:1
+#A11:grp:INF:20:@1250,3420:%H100A90S0:t1000000
+------------------------------------------------------------

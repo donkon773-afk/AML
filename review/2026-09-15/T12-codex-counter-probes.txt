@@ -1,0 +1,63 @@
+T12 Codex counter-probes
+Date: 2026-09-15
+Reviewed commit: 2d2074d5e17e0b0af946cbac0ee3997d0abc3fcf
+Model: qwen3.5-9b-uncensored-hauhaucs-aggressive@q4_k_m
+LM Studio route: lmstudio-python SDK, GBNF response_format
+Precondition: arma3_x64 not running
+
+Offline verification
+--------------------
+npm ci: 2 packages installed; the pre-T16 tree still reports 1 high vulnerability.
+verify.py without PYTHONUTF8: exit 0; 70/70 Python, 14/14 JavaScript,
+GBNF equivalent-language checks and offline demo passed.
+
+Counter-probe 1: STATE with bounded entity repetition
+------------------------------------------------------
+The package file was not changed. docs/aml_v2.gbnf was loaded in memory and
+the STATE suffix ("\n" entity-row){0,128} was replaced once with
+("\n" entity-row){1,2}. ask(..., grammar_text=modified, max_tokens=1024)
+used the same single-unit STATE prompt.
+
+Result: success; 12.824 s; ask() returned normally, which means the SDK
+reported eosFound or stopStringFound. validate_frame: PASS, kind=state,
+entity_count=2.
+
+!AML:2|STATE|session|A11->KIND|1|1000000|60000|w:World|r:1
+#ID:grp:INF:20:@1250,3420:%H100A90S-:t1000000
+#ID:grp:INF:20:@1250,3420:%H100A90S-:t1000000:src:A11
+
+The ASCII arrow above represents the wire arrow character emitted by the
+model. The frame was syntactically valid but duplicated the entity and drifted
+on unspecified envelope fields. This probe tests completion, not quality.
+
+Counter-probe 2: short PROP under stock grammar
+------------------------------------------------
+Prompt requested exactly one ATK action and supplied every envelope/body field.
+ask(..., max_tokens=1024) used unmodified docs/aml_v2.gbnf.
+
+Result: success; 6.886 s; normal confirmed completion. validate_frame: PASS,
+kind=proposal, action_count=3.
+
+!AML:2|PROP|session|planner->gw|2|1000000|30000|w:Altis|r:1|by:observer|rs:CONTACT[#E02]
+$ATK:#A11:@1420,3350:#op1
+$REC:#A11:@1420,3350:#op1
+$ADV:#A11:@1420,3350:#op1
+
+The result proves that the model can terminate a bounded decision frame, but
+it did not obey the requested action count and reused op1. T14 must therefore
+measure semantic prompt adherence and Receiver.accept, not only grammar and
+validate_frame success.
+
+Conclusion
+----------
+The counter-probes support Antigravity's repetition hypothesis. The original
+stock-grammar STATE eosFound acceptance criterion remains formally unmet, but
+the negative result is sufficiently explained for this research task: STATE
+and DELTA should be encoded deterministically by the data source, while model
+evaluation should focus on bounded PROP/QUERY/RES/ERR frames. This is an
+acceptance of the investigation, not evidence that stock STATE generation works.
+
+Cleanup/state restoration
+-------------------------
+The Qwen model was unloaded after the probes. The gpt-oss model that the user
+had loaded before this review was then restored with context 8192 and parallel 4.

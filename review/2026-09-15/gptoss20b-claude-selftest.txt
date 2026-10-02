@@ -1,0 +1,29 @@
+﻿python.exe : Running control and two random grammar-only probes...
+At line:3 char:1
++ & ".\.venv\Scripts\python.exe" scripts\llm_client_sdk.py --selftest-g ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (Running control...-only probes...:String) [], RemoteE 
+   xception
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+Traceback (most recent call last):
+  File "C:\Users\Admin\Desktop\ИИ\aml-nam\scripts\llm_client_sdk.py", line 230, in <module>
+    main()
+  File "C:\Users\Admin\Desktop\ИИ\aml-nam\scripts\llm_client_sdk.py", line 210, in main
+    sys.exit(0 if selftest(args.model, max_tokens=args.max_tokens,
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\Desktop\ИИ\aml-nam\scripts\llm_client_sdk.py", line 111, in selftest
+    ok, report = probe(lambda prompt, text: ask(model_id, prompt, grammar=text is not None,
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\Desktop\ИИ\aml-nam\scripts\grammar_probe.py", line 19, in probe
+    if generate(prompt, grammar).strip() != marker:
+       ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\Desktop\ИИ\aml-nam\scripts\llm_client_sdk.py", line 111, in <lambda>
+    ok, report = probe(lambda prompt, text: ask(model_id, prompt, grammar=text is not None,
+                                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\Desktop\ИИ\aml-nam\scripts\llm_client_sdk.py", line 99, in ask
+    result = model.respond(chat, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+lmstudio.LMStudioServerError: Chat response error: Engine protocol predict stream returned an error
+: {"code":500,"message":"The model produced output that does not match the expected peg-native form
+at","type":"server_error"}

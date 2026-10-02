@@ -1,0 +1,39 @@
+﻿control: 'HELLO WORLD'
+expected marker: AML_PROBE_dbd79ff610cf27068f534f2d
+payload['grammar'] route: 'HELLO WORLD'
+python.exe : Traceback (most recent call last):
+At line:4 char:1
++ & ".\.venv\Scripts\python.exe" $diag "qwen3.5-9b-uncensored-hauhaucs- ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (Traceback (most recent call last)::String) [], Remote 
+   Exception
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+  File "C:\Users\Admin\AppData\Local\Temp\claude\C--Users-Admin-Desktop----NeroAI-4-2-0-takistan-rp
+\63d7df97-9ab3-43ca-966d-fd58b5cc7070\scratchpad\aml_http_diag.py", line 28, in <module>
+    with urllib.request.urlopen(req, timeout=90) as r:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python312\Lib\urllib\request.py", line 215, in
+ urlopen
+    return opener.open(url, data, timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python312\Lib\urllib\request.py", line 521, in
+ open
+    response = meth(req, response)
+               ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python312\Lib\urllib\request.py", line 630, in
+ http_response
+    response = self.parent.error(
+               ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python312\Lib\urllib\request.py", line 559, in
+ error
+    return self._call_chain(*args)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python312\Lib\urllib\request.py", line 492, in
+ _call_chain
+    result = func(*args)
+             ^^^^^^^^^^^
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python312\Lib\urllib\request.py", line 639, in
+ http_error_default
+    raise HTTPError(req.full_url, code, msg, hdrs, fp)
+urllib.error.HTTPError: HTTP Error 400: Bad Request

@@ -1,0 +1,28 @@
+test_all_result_statuses_reasons_and_empty_operations (tests.test_regressions.RepairRegressionTests.test_all_result_statuses_reasons_and_empty_operations) ... ok
+test_bad_result_without_related_rejected (tests.test_regressions.RepairRegressionTests.test_bad_result_without_related_rejected) ... ok
+test_empty_partial_rejected_atomically (tests.test_regressions.RepairRegressionTests.test_empty_partial_rejected_atomically) ... ok
+test_error_and_explain_query_match_schema (tests.test_regressions.RepairRegressionTests.test_error_and_explain_query_match_schema) ... ok
+test_full_validator_rejects_prefix_truncation_and_prose (tests.test_regressions.RepairRegressionTests.test_full_validator_rejects_prefix_truncation_and_prose) ... ok
+test_http_client_main_cli_fail_fast (tests.test_regressions.RepairRegressionTests.test_http_client_main_cli_fail_fast) ... ok
+test_http_grammar_support_is_fail_closed (tests.test_regressions.RepairRegressionTests.test_http_grammar_support_is_fail_closed) ... ok
+test_http_mock_server_ignoring_grammar_fails_fast (tests.test_regressions.RepairRegressionTests.test_http_mock_server_ignoring_grammar_fails_fast) ... ok
+test_http_truncation_is_not_accepted (tests.test_regressions.RepairRegressionTests.test_http_truncation_is_not_accepted) ... ok
+test_integer_coordinates_and_percent_metrics_match (tests.test_regressions.RepairRegressionTests.test_integer_coordinates_and_percent_metrics_match) ... ok
+test_missing_envelope_cannot_synthesize_time_or_identity (tests.test_regressions.RepairRegressionTests.test_missing_envelope_cannot_synthesize_time_or_identity) ... ok
+test_nam1_cannot_be_promoted_by_extensions (tests.test_regressions.RepairRegressionTests.test_nam1_cannot_be_promoted_by_extensions) ... ok
+test_no_unadvertised_schema_is_implicitly_trusted (tests.test_regressions.RepairRegressionTests.test_no_unadvertised_schema_is_implicitly_trusted) ... ok
+test_null_full_upsert_clears_previous_value (tests.test_regressions.RepairRegressionTests.test_null_full_upsert_clears_previous_value) ... ok
+test_null_partial_is_explicitly_rejected_not_silently_lost (tests.test_regressions.RepairRegressionTests.test_null_partial_is_explicitly_rejected_not_silently_lost) ... ok
+test_partial_cannot_refresh_stale_target_or_evidence (tests.test_regressions.RepairRegressionTests.test_partial_cannot_refresh_stale_target_or_evidence) ... ok
+test_partial_role_count_survive_and_change_receiver (tests.test_regressions.RepairRegressionTests.test_partial_role_count_survive_and_change_receiver) ... ok
+test_probe_catches_ignored_grammar_and_prefix_only (tests.test_regressions.RepairRegressionTests.test_probe_catches_ignored_grammar_and_prefix_only) ... ok
+test_probe_marker_is_only_in_grammar (tests.test_regressions.RepairRegressionTests.test_probe_marker_is_only_in_grammar) ... ok
+test_schema_incompatible_legacy_explanation_rejected (tests.test_regressions.RepairRegressionTests.test_schema_incompatible_legacy_explanation_rejected) ... ok
+test_sdk_stop_reason_from_stats (tests.test_regressions.RepairRegressionTests.test_sdk_stop_reason_from_stats) ... ok
+test_supported_nam2_roundtrip (tests.test_regressions.RepairRegressionTests.test_supported_nam2_roundtrip) ... ok
+test_unsupported_projection_fields_rejected (tests.test_regressions.RepairRegressionTests.test_unsupported_projection_fields_rejected) ... ok
+
+----------------------------------------------------------------------
+Ran 23 tests in 2.092s
+
+OK

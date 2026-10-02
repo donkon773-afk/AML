@@ -1,0 +1,177 @@
+(qwen3 tokenizer unavailable: No module named 'transformers')
+
+=== Fixture A -- benchmark_nam.py stream, FULL-STATE every frame (no delta) ===
+format                 bytes  chars  gpt-cl100k  gpt-o200k
+---------------------  -----  -----  ----------  ---------
+JSON (full, minified)  12822  12822  4920        4920     
+TOON (full)            15392  15392  6289        6279     
+AML v2.0 (full)        5121   5101   3019        3029     
+  TOON (full) vs JSON (full, minified): bytes -20.0%, gpt-cl100k -27.8%, gpt-o200k -27.6%
+  AML v2.0 (full) vs JSON (full, minified): bytes +60.1%, gpt-cl100k +38.6%, gpt-o200k +38.4%
+
+=== Fixture A -- same stream, WITH delta frames (2 keyframes + 8 deltas) ===
+format                  bytes  chars  gpt-cl100k  gpt-o200k
+----------------------  -----  -----  ----------  ---------
+JSON (delta, minified)  5126   5126   1896        1888     
+TOON (delta-aware)      5688   5688   2346        2336     
+AML v2.0 (delta-aware)  1993   1973   1115        1125     
+  TOON (delta-aware) vs JSON (delta, minified): bytes -11.0%, gpt-cl100k -23.7%, gpt-o200k -23.7%
+  AML v2.0 (delta-aware) vs JSON (delta, minified): bytes +61.1%, gpt-cl100k +41.2%, gpt-o200k +40.4%
+
+=== Transport policy only: full vs delta JSON ===
+format      bytes  chars  gpt-cl100k  gpt-o200k
+----------  -----  -----  ----------  ---------
+JSON full   12822  12822  4920        4920     
+JSON delta  5126   5126   1896        1888     
+  JSON delta vs JSON full: bytes +60.0%, gpt-cl100k +61.5%, gpt-o200k +61.6%
+
+=== Fixture B -- single company snapshot (README's -82.6%/-75.6%/4.1x example) ===
+format           bytes  chars  gpt-cl100k  gpt-o200k
+---------------  -----  -----  ----------  ---------
+JSON (minified)  2142   2066   808         809      
+TOON             2548   2472   984         976      
+AML v2.0         915    837    448         447      
+  TOON vs JSON (minified): bytes -19.0%, gpt-cl100k -21.8%, gpt-o200k -20.6%
+  AML v2.0 vs JSON (minified): bytes +57.3%, gpt-cl100k +44.6%, gpt-o200k +44.7%
+
+--- for reference, the raw texts (Fixture B) ---
+JSON: {"v":"NAM/1","id":"m100","session":"combat_session_01","sender":"observer_daemon","recipient":"gateway_host","seq":100,"sent_ms":1725830400000,"ttl_ms":30000,"kind":"state","body":{"world":"Altis","re ...
+
+TOON:
+v: NAM/1
+id: m100
+session: combat_session_01
+sender: observer_daemon
+recipient: gateway_host
+seq: 100
+sent_ms: 1725830400000
+ttl_ms: 30000
+kind: state
+body:
+  world: Altis
+  rev: 1
+  entities[11]:
+    - id: A11
+      kind: group
+      role: INFANTRY
+      count: 20
+      pos[3]: 1050,3040,0
+      hp: 0.95
+      ammo: 0.8
+      suppression: 0
+      observed_ms: 1725830400000
+      callsign: Отделение 1-1
+    - id: A12
+      kind: group
+      role: INFANTRY
+      count: 20
+      pos[3]: 1100,3080,0
+      hp: 0.9
+      ammo: 0.7
+      suppression: 0.15
+      observed_ms: 1725830400000
+      callsign: Отделение 1-2
+    - id: A13
+      kind: group
+      role: INFANTRY
+      count: 20
+      pos[3]: 1150,3000,0
+      hp: 0.85
+      ammo: 0.9
+      suppression: 0
+      observed_ms: 1725830400000
+      callsign: Отделение 1-3
+    - id: A14
+      kind: group
+      role: INFANTRY
+      count: 20
+      pos[3]: 1200,3040,0
+      hp: 1
+      ammo: 0.8
+      suppression: 0.15
+      observed_ms: 1725830400000
+      callsign: Отделение 1-4
+    - id: A15
+      kind: group
+      role: INFANTRY
+      count: 20
+      pos[3]: 1250,3080,0
+      hp: 0.95
+      ammo: 0.7
+      suppression: 0
+      observed_ms: 1725830400000
+      callsign: Отделение 1-5
+    - id: A16
+      kind: group
+      role: RECON
+      count: 8
+      pos[3]: 1300,3000,0
+      hp: 0.9
+      ammo: 0.9
+      suppression: 0.15
+      observed_ms: 1725830400000
+      callsign: Отделение 1-6
+    - id: A17
+      kind: group
+      role: RECON
+      count: 8
+      pos[3]: 1350,3040,0
+      hp: 0.85
+      ammo: 0.8
+      suppression: 0
+      observed_ms: 1725830400000
+      callsign: Отделение 1-7
+    - id: A18
+      kind: group
+      role: MECHANIZED
+      count: 12
+      pos[3]: 1400,3080,0
+      hp: 1
+      ammo: 0.7
+      suppression: 0.15
+      observed_ms: 1725830400000
+      callsign: Отделение 1-8
+    - id: A21
+      kind: vehicle
+      role: ARMORED
+      count: 3
+      pos[3]: 1150,2900,0
+      hp: 1
+      ammo: 1
+      suppression: 0
+      observed_ms: 1725830400000
+      callsign: Танк 2-1
+    - id: E01
+      kind: contact
+      role: ARMORED
+      count: 1
+      pos[3]: 1650,3500,10
+      hp: 1
+      ammo: null
+      suppression: null
+      observed_ms: 1725830400000
+      source: A16
+    - id: E02
+      kind: contact
+      role: INFANTRY
+      count: 6
+      pos[3]: 1420,3350,0
+      hp: 0.9
+      ammo: 0.8
+      suppression: 0
+      observed_ms: 1725830400000
+      source: A11
+
+AML:
+!AML:2|STATE|combat_session_01|observer_daemon→gateway_host|100|1725830400000|30000|w:Altis|r:1
+#A11:grp:INF:20:@1050,3040:%H95A80S0:t1725830400000:C"Отделение 1-1"
+#A12:grp:INF:20:@1100,3080:%H90A70S15:t1725830400000:C"Отделение 1-2"
+#A13:grp:INF:20:@1150,3000:%H85A90S0:t1725830400000:C"Отделение 1-3"
+#A14:grp:INF:20:@1200,3040:%H100A80S15:t1725830400000:C"Отделение 1-4"
+#A15:grp:INF:20:@1250,3080:%H95A70S0:t1725830400000:C"Отделение 1-5"
+#A16:grp:REC:8:@1300,3000:%H90A90S15:t1725830400000:C"Отделение 1-6"
+#A17:grp:REC:8:@1350,3040:%H85A80S0:t1725830400000:C"Отделение 1-7"
+#A18:grp:MEC:12:@1400,3080:%H100A70S15:t1725830400000:C"Отделение 1-8"
+#A21:veh:ARM:3:@1150,2900:%H100A100S0:t1725830400000:C"Танк 2-1"
+#E01:cnt:ARM:1:@1650,3500,10:%H100A-S-:t1725830400000:src:A16
+#E02:cnt:INF:6:@1420,3350:%H90A80S0:t1725830400000:src:A11

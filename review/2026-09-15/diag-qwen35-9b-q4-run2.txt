@@ -1,0 +1,9 @@
+﻿=== qwen3.5-9b-uncensored-hauhaucs-aggressive@q4_k_m  no_think=True  max_tokens=128 ===
+control ERROR: AMLError: SDK completion not confirmed: maxPredictedTokensReached
+
+=== qwen3.5-9b-uncensored-hauhaucs-aggressive@q4_k_m  no_think=True  max_tokens=1024 ===
+control raw: 'Thinking Process:\n\n1.  **Analyze the Request:** The user wants me to reply with exactly "HELLO WORLD" and nothing else. This includes no extra text, no markdown formatting (like bolding or code blocks), no introductory phrases, and no trailing punctuation unless specified (though "HELLO WORLD" usually implies just those words).\n\n2.  **Determine the Output:** The string should be `HELLO WORLD`.\n\n3.  **Check for Constraints:**\n    *   "exactly HELLO WORLD": Case-sensitive? Usually yes.\n    *   "and nothing else": No newlines, no quotes, no markdown.\n\n4.  **Draft the Response:** `HELLO WORLD`\n\n5.  **Final Review:** Does this match the instruction perfectly? Yes.\n\n6.  **Construct Final Output:** HELLO WORLD\n__LM_STUDIO_INTERNAL_LSEP_SYNTHETIC_REASONING_END_f4e9a8d2c6b14d0c9e5f3a7b8c1d2e6a__HELLO WORLD'
+probe 1: expected AML_PROBE_40ff6935b2240e70dbb60559
+         got      'AML_PROBE_40ff6935b2240e70dbb60559__LM_STUDIO_INTERNAL_LSEP_SYNTHETIC_REASONING_END_f4e9a8d2c6b14d0c9e5f3a7b8c1d2e6a__'  -> MISMATCH
+probe 2: expected AML_PROBE_7d1e2b912276bcb713ed6ac0
+         got      'AML_PROBE_7d1e2b912276bcb713ed6ac0__LM_STUDIO_INTERNAL_LSEP_SYNTHETIC_REASONING_END_f4e9a8d2c6b14d0c9e5f3a7b8c1d2e6a__'  -> MISMATCH

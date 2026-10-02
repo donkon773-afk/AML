@@ -1,0 +1,8 @@
+=== T12 Live SDK Selftest ===
+Date: 2026-09-14 23:43:49+03:00
+Command: .\\.venv\\Scripts\\python.exe scripts/llm_client_sdk.py --selftest-grammar --model qwen3.5-9b-uncensored-hauhaucs-aggressive@q4_k_m --max-tokens 1024
+
+Running control and two random grammar-only probes...
+PASS: two random grammar-only probes passed; AML still requires full validation
+
+Exit code: 0

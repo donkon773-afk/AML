@@ -1,0 +1,66 @@
+﻿[PASS] layout
+[PASS] Python dependencies
+[PASS] Python, independent schema and cross-language regression tests
+
+......................................................................
+----------------------------------------------------------------------
+Ran 70 tests in 2.452s
+
+OK
+[PASS] JavaScript tests
+âœ” AML Codec: State Keyframe serialization and roundtrip (3.5962ms)
+âœ” AML Codec: entity missing observed_ms is rejected at encode (0.3671ms)
+âœ” AML Codec: entity row missing observation token is rejected at decode (0.1526ms)
+âœ” AML Codec: Delta mutations and state reconstruction (0.561ms)
+âœ” AML Codec: Tactical Proposal and Action Mapping (0.4693ms)
+âœ” AML Codec: proposal action without op is rejected at encode (0.1443ms)
+âœ” AML Codec: action row without op is rejected at decode (0.1622ms)
+âœ” AML Codec: decoded action op is deterministic (no Math.random fallback) (0.2923ms)
+âœ” AML Codec: AUTONOMY action roundtrips (0.375ms)
+âœ” AML Codec: Queries and Results (Supervisor-Executive Dialog) (1.1061ms)
+âœ” AML Codec: Task Handoff Protocol (0.2738ms)
+âœ” AML Codec: Error Handling & Invariant Enforcement (0.2461ms)
+âœ” AML Codec: NAM/2 schema and trace_id survive the compact projection (0.2173ms)
+âœ” AML Codec: frames without NAM/2 fields stay on the NAM/1 dialect (0.1126ms)
+â„¹ tests 14
+â„¹ suites 0
+â„¹ pass 14
+â„¹ fail 0
+â„¹ cancelled 0
+â„¹ skipped 0
+â„¹ todo 0
+â„¹ duration_ms 85.9285
+[PASS] GBNF equivalent-language check
+complete frames must parse and be allowed to terminate:
+  ok    HANDOFF
+  ok    STATE
+  ok    STATE with NAM/2 envelope
+  ok    DELTA
+  ok    PROP
+  ok    QUERY
+  ok    RES
+  ok    ERR
+malformed frames must be unreachable:
+  ok    unknown action
+  ok    full-word role
+  ok    wrong protocol version
+  ok    plain prose
+  ok    colon inside id
+truncated frames must parse but NOT be allowed to terminate:
+  ok    entity without t<ms>
+  ok    action without #op
+exact repetition boundaries:
+  ok    128 rows accepted
+  ok    129 rows rejected
+  ok    3 actions accepted
+  ok    4 actions rejected
+  ok    63-character hash rejected
+  ok    65-character hash rejected
+
+GBNF language checks passed after equivalent bounded expansion; native engine untested.
+[PASS] offline demo
+keyframe accepted, entities: ['A11', 'E02']
+proposal accepted, actions: ['ASSAULT', 'SET_ROE']
+ghost target rejected by receiver: invalid action target
+missing t<ms> rejected by codec: Invalid or incomplete AML syntax
+OFFLINE PASSED. Native engine loading, sampling, latency and decision quality remain UNVERIFIED.

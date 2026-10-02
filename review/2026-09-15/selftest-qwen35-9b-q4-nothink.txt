@@ -1,0 +1,26 @@
+﻿python.exe : Running control and two random grammar-only probes...
+At line:4 char:1
++ & ".\.venv\Scripts\python.exe" scripts\llm_client_sdk.py --selftest-g ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (Running control...-only probes...:String) [], RemoteE 
+   xception
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+Traceback (most recent call last):
+  File "C:\aml-verify\scripts\llm_client_sdk.py", line 226, in <module>
+    main()
+  File "C:\aml-verify\scripts\llm_client_sdk.py", line 208, in main
+    sys.exit(0 if selftest(args.model) else 1)
+                  ^^^^^^^^^^^^^^^^^^^^
+  File "C:\aml-verify\scripts\llm_client_sdk.py", line 110, in selftest
+    ok, report = probe(lambda prompt, text: ask(model_id, prompt, grammar=text is not None,
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\aml-verify\scripts\grammar_probe.py", line 13, in probe
+    control = generate(prompt, None).strip()
+              ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\aml-verify\scripts\llm_client_sdk.py", line 110, in <lambda>
+    ok, report = probe(lambda prompt, text: ask(model_id, prompt, grammar=text is not None,
+                                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\aml-verify\scripts\llm_client_sdk.py", line 103, in ask
+    raise AMLError("SDK completion not confirmed: " + str(stop))
+aml_codec.AMLError: SDK completion not confirmed: maxPredictedTokensReached
