@@ -1,0 +1,112 @@
+// AML v2.0 — reference grammar (Lark/EBNF dialect).
+// This must stay byte-for-byte in sync with aml_codec.py / aml_codec.js output.
+// It exists to be verified against the codec (see tests/test_aml_grammar.py)
+// BEFORE being translated to GBNF and handed to llama.cpp/LM Studio as a
+// hard decoding constraint. A grammar that isn't verified against the real
+// encoder is worse than no grammar: it gives false confidence.
+
+start: state_msg | delta_msg | prop_msg | query_msg | res_msg | err_msg | handoff_msg
+
+ARROW: "\u2192"
+HDR: "!AML:2|"
+
+// ---- shared envelope pieces ----
+session: IDENT
+sender: IDENT
+recipient: IDENT
+seq: INT
+sent_ms: INT
+ttl_ms: INT
+world: IDENT
+rev: INT
+base: INT
+
+envelope_route: session "|" sender ARROW recipient "|" seq "|" sent_ms "|" ttl_ms nam_ext_fields
+
+// NAM/2 optional envelope additions (payload-schema id, trace correlation id).
+nam_ext_fields: ("|s:" INT)? ("|tr:" IDENT)?
+
+// ---- STATE ----
+state_msg: HDR "STATE|" envelope_route "|w:" world "|r:" rev ("\n" entity_row)~0..128
+
+entity_row: field_row | task_row | agent_row
+field_row: "#" IDENT ":" ekind ":" erole ":" INT ":" coords ":" metrics ":" observed (":" callsign)? (":src:" IDENT)?
+// Cluster profile (payload schema s:2, T37). The codec enforces that these
+// rows never share a frame with field rows and only appear under |s:2.
+task_row: "#" IDENT ":task:" tstatus ":" IDENT ":" IDENT ":P" PRIO ":" observed (":dep:" idlist)?
+agent_row: "#" IDENT ":agent:" astate ":L" metric_val ":W" metric_val ":" observed (":tsk:#" IDENT)?
+idlist: "#" IDENT ("," "#" IDENT)~0..15
+
+// ---- DELTA ----
+delta_msg: HDR "DELTA|" envelope_route "|w:" world "|b:" base "|r:" rev ("\n" delta_line)~0..128
+delta_line: delta_add | delta_update | delta_remove
+delta_add: "+" entity_row
+delta_update: "~#" IDENT ((":" coords) (":" metrics)? (":role:" erole)? (":cnt:" INT)? | (":" metrics) (":role:" erole)? (":cnt:" INT)? | ":role:" erole (":cnt:" INT)? | ":cnt:" INT)
+delta_remove: "-#" IDENT
+
+// ---- PROP ----
+prop_msg: HDR "PROP|" envelope_route "|w:" world "|r:" rev "|by:" IDENT "|rs:" reason_code evidence? ("\n" action_line)~1..3
+action_line: "$" action_type ":#" IDENT (":" coords)? (":" action_arg)? ":#" IDENT
+action_arg: roe_val | support_val | IDENT
+evidence: "[" "#" IDENT ("," "#" IDENT)* "]"
+
+// ---- QUERY ----
+query_msg: HDR "QUERY|" envelope_route query_body
+query_body: "|?KEYFRAME"
+          | "|?STATUS:#" IDENT
+          | "|?WHY:#" IDENT
+
+// ---- RESULT ----
+res_msg: HDR "RES|" envelope_route "|rel:" IDENT res_body ("|rs:" reason_code evidence?)?
+res_body: "|*ACC:" oplist
+        | "|*EXEC:" oplist
+        | "|*REJ:" oplist
+        | "|*FAIL:" oplist
+
+oplist: ("#" IDENT ("," "#" IDENT)*)?
+
+// ---- ERROR ----
+err_msg: HDR "ERR|" envelope_route "|err:" err_code ("|rel:" IDENT)?
+
+// ---- HANDOFF ----
+handoff_msg: HDR "HANDOFF|" envelope_route "|tsk:" IDENT "|st:" handoff_status handoff_line~0..50
+handoff_line: "\n" (sum_line | art_line | chk_line | nxt_line)
+sum_line: "SUM:" QSTRING
+art_line: "ART:" PATH ":" SHAHEX
+chk_line: "CHK:" NAME ":" chk_result ":" QSTRING
+nxt_line: "NXT:" QSTRING
+
+// ---- coordinates / metrics ----
+coords: "@" INT "," INT ("," INT)?
+metrics: "%H" metric_val "A" metric_val "S" metric_val
+metric_val: INT | "-"
+observed: "t" INT
+callsign: /C"(?:[^"\x00-\x1f]|"")*"/
+
+// ---- enums (must match ROLE_MAP / KIND_MAP / ACTION_MAP in the codec) ----
+ekind: "grp" | "unt" | "veh" | "cnt"
+erole: "INF" | "REC" | "MEC" | "ARM" | "UNK"
+action_type: "ADV"|"ATK"|"HLD"|"RET"|"REC"|"FIRE"|"BRD"|"DIS"|"REP"|"ROE"|"SEC"|"RPT"|"CAN"|"SUPP"|"INTEL"|"NEG"|"DES"|"AUTO"
+           | "RSG"|"PAU"|"RSM"|"RTN"|"APV"
+roe_val: "HOLD_FIRE" | "RETURN_FIRE" | "OPEN_FIRE"
+support_val: "MORTAR" | "ARTILLERY" | "CAS"
+reason_code: "PLAYER_ORDER"|"STALLED"|"CONTACT"|"LOW_AMMO"|"MISSION_OBJECTIVE"|"NEED_KEYFRAME"|"UNKNOWN"
+           | "LIMIT"|"STALE"|"CRITIC_RETURN"|"DEPENDS"
+tstatus: "BKL"|"INP"|"REV"|"APR"|"DON"|"CLS"
+astate: "ACT"|"STL"|"WAT"|"OFF"
+err_code: "INVALID"|"EXPIRED"|"UNAUTHORIZED"|"REPLAY"|"RESYNC"|"UNSUPPORTED"|"BUSY"
+handoff_status: "PLANNED"|"IN_PROGRESS"|"BLOCKED"|"COMPLETE"
+chk_result: "PASS"|"FAIL"|"UNVERIFIED"
+
+// ---- primitives ----
+// Wire-safe identifier subset: AML uses ':' as an unescaped sub-delimiter,
+// so ids that are otherwise legal under nam.schema.json's id pattern
+// (which permits ':') are NOT safely round-trippable through AML. This
+// grammar intentionally excludes ':' -- see PROCESSING notes.
+IDENT: /[A-Za-z0-9][A-Za-z0-9_.\-]*/
+INT: /-?[0-9]+/
+PRIO: /[0-9]{1,2}/
+NAME: /[^:\n]+/
+PATH: /[^:\n]+/
+SHAHEX: /[a-f0-9]{64}/
+QSTRING: /"(?:[^"\x00-\x1f]|"")*"/
