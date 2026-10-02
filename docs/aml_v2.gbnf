@@ -1,0 +1,93 @@
+# AML/2 review-fix-r1 grammar. Use with the matching codec and NAM schema.
+# RESULT syntax differs from the original bundle: see COMPATIBILITY.md.
+# Constraints restrict continuations only when the engine applies them.
+# A token/context limit or interrupted request may still return a prefix.
+# Always validate complete syntax, NAM schema and Receiver semantics.
+# Lark is a structural twin; equivalent GBNF tests do not prove native loading.
+
+root ::= state-msg | delta-msg | prop-msg | query-msg | res-msg | err-msg | handoff-msg
+
+envelope-route ::= ident "|" ident "\u2192" ident "|" int "|" int "|" int nam-ext-fields
+
+# NAM/2 optional envelope additions (payload-schema id, trace correlation id).
+nam-ext-fields ::= ("|s:" int)? ("|tr:" ident)?
+
+# Repetition bounds mirror nam.schema.json: entities maxItems 128, proposal
+# actions minItems 1 / maxItems 3. Unbounded `*` here let a constrained model
+# loop forever emitting rows, since "one more row" was always legal.
+
+# ---- STATE ----
+state-msg ::= "!AML:2|STATE|" envelope-route "|w:" ident "|r:" int ("\n" entity-row){0,128}
+entity-row ::= field-row | task-row | agent-row
+field-row ::= "#" ident ":" ekind ":" erole ":" int ":" coords ":" metrics ":" observed (":" callsign)? (":src:" ident)?
+# Cluster profile (payload schema s:2, T37); the codec rejects mixing with field rows.
+task-row ::= "#" ident ":task:" tstatus ":" ident ":" ident ":P" [0-9] [0-9]? ":" observed (":dep:" idlist)?
+agent-row ::= "#" ident ":agent:" astate ":L" metric-val ":W" metric-val ":" observed (":tsk:#" ident)?
+idlist ::= "#" ident ("," "#" ident){0,15}
+
+# ---- DELTA ----
+delta-msg ::= "!AML:2|DELTA|" envelope-route "|w:" ident "|b:" int "|r:" int ("\n" delta-line){0,128}
+delta-line ::= delta-add | delta-update | delta-remove
+delta-add ::= "+" entity-row
+delta-update ::= "~#" ident ((":" coords) (":" metrics)? (":role:" erole)? (":cnt:" int)? | (":" metrics) (":role:" erole)? (":cnt:" int)? | ":role:" erole (":cnt:" int)? | ":cnt:" int)
+delta-remove ::= "-#" ident
+
+# ---- PROP ----
+prop-msg ::= "!AML:2|PROP|" envelope-route "|w:" ident "|r:" int "|by:" ident "|rs:" reason-code evidence? ("\n" action-line){1,3}
+action-line ::= "$" action-type ":#" ident (":" coords)? (":" action-arg)? ":#" ident
+action-arg ::= roe-val | support-val | ident
+evidence ::= "[#" ident (",#" ident)* "]"
+
+# ---- QUERY ----
+query-msg ::= "!AML:2|QUERY|" envelope-route query-body
+query-body ::= "|?KEYFRAME" | "|?STATUS:#" ident | "|?WHY:#" ident
+
+# ---- RESULT ----
+res-msg ::= "!AML:2|RES|" envelope-route "|rel:" ident res-body ("|rs:" reason-code evidence?)?
+res-body ::= "|*ACC:" oplist | "|*EXEC:" oplist | "|*REJ:" oplist | "|*FAIL:" oplist
+
+oplist ::= ("#" ident (",#" ident)*)?
+
+# ---- ERROR ----
+err-msg ::= "!AML:2|ERR|" envelope-route "|err:" err-code ("|rel:" ident)?
+
+# ---- HANDOFF ----
+handoff-msg ::= "!AML:2|HANDOFF|" envelope-route "|tsk:" ident "|st:" handoff-status handoff-line{0,50}
+handoff-line ::= "\n" (sum-line | art-line | chk-line | nxt-line)
+sum-line ::= "SUM:" qstring
+art-line ::= "ART:" path ":" sha-hex
+chk-line ::= "CHK:" name ":" chk-result ":" qstring
+nxt-line ::= "NXT:" qstring
+
+# ---- coordinates / metrics ----
+coords ::= "@" int "," int ("," int)?
+metrics ::= "%H" metric-val "A" metric-val "S" metric-val
+metric-val ::= int | "-"
+observed ::= "t" int
+callsign ::= "C\"" ( [^"\x00-\x1f] | "\"\"" )* "\""
+
+# ---- enums (must match ROLE_MAP / KIND_MAP / ACTION_MAP in the codec) ----
+ekind ::= "grp" | "unt" | "veh" | "cnt"
+erole ::= "INF" | "REC" | "MEC" | "ARM" | "UNK"
+action-type ::= "ADV" | "ATK" | "HLD" | "RET" | "REC" | "FIRE" | "BRD" | "DIS" | "REP" | "ROE" | "SEC" | "RPT" | "CAN" | "SUPP" | "INTEL" | "NEG" | "DES" | "AUTO" | "RSG" | "PAU" | "RSM" | "RTN" | "APV"
+roe-val ::= "HOLD_FIRE" | "RETURN_FIRE" | "OPEN_FIRE"
+support-val ::= "MORTAR" | "ARTILLERY" | "CAS"
+reason-code ::= "PLAYER_ORDER" | "STALLED" | "CONTACT" | "LOW_AMMO" | "MISSION_OBJECTIVE" | "NEED_KEYFRAME" | "UNKNOWN" | "LIMIT" | "STALE" | "CRITIC_RETURN" | "DEPENDS"
+tstatus ::= "BKL" | "INP" | "REV" | "APR" | "DON" | "CLS"
+astate ::= "ACT" | "STL" | "WAT" | "OFF"
+err-code ::= "INVALID" | "EXPIRED" | "UNAUTHORIZED" | "REPLAY" | "RESYNC" | "UNSUPPORTED" | "BUSY"
+handoff-status ::= "PLANNED" | "IN_PROGRESS" | "BLOCKED" | "COMPLETE"
+chk-result ::= "PASS" | "FAIL" | "UNVERIFIED"
+
+# ---- primitives ----
+# Wire-safe identifier subset: AML uses ':' as an unescaped sub-delimiter,
+# so ids must not contain ':' even though nam.schema.json's id pattern
+# would otherwise allow it. Keep entity/session/op ids restricted to this
+# charset at the source (Arma callsign/NetID generation) if you want a
+# guarantee that every valid NAM/1 id also round-trips through AML.
+ident ::= [A-Za-z0-9] [A-Za-z0-9_.-]*
+int ::= "-"? [0-9]+
+name ::= [^:\n]+
+path ::= [^:\n]+
+sha-hex ::= [a-f0-9]{64}
+qstring ::= "\"" ( [^"\x00-\x1f] | "\"\"" )* "\""
