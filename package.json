@@ -1,0 +1,11 @@
+{
+  "name": "aml-nam",
+  "private": true,
+  "description": "AML v2.0 / NAM/2 bundle. `npm install` pulls the independent GBNF parser used by tests/test_gbnf_file.mjs.",
+  "devDependencies": {
+    "gbnf": "0.1.41"
+  },
+  "dependencies": {
+    "@toon-format/toon": "2.3.1"
+  }
+}

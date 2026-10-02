@@ -1,0 +1,2 @@
+-r requirements-test.txt
+lmstudio==1.5.0

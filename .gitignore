@@ -1,0 +1,13 @@
+.venv/
+node_modules/
+__pycache__/
+*.pyc
+.agent-sync/.lock
+.agent-sync/*.tmp
+.agent-sync/events.jsonl
+.agent-sync/.jobs.lock
+.agent-sync/llm_jobs.json
+.agent-sync/STOP_LINE.md
+review/*/T39-ci.log
+.agent-sync/frames/
+dist/

@@ -1,0 +1,10 @@
+* text=auto eol=lf
+*.ps1 text eol=crlf
+*.bat text eol=crlf
+*.cmd text eol=crlf
+
+# T36 F3: exclude local team coordination state, model logs and agent prompts from release archive
+.agent-sync/ export-ignore
+review/**/llm/ export-ignore
+CLAUDE.md export-ignore
+AGENTS.md export-ignore
