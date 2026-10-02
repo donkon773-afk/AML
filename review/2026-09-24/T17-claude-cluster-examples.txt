@@ -1,0 +1,36 @@
+### исполнитель сдаёт задачу критику
+!AML:2|HANDOFF|aml-nam|antigravity→codex|1|1790200000000|60000|tsk:T13|st:COMPLETE
+SUM:"F4: reset кэша грамматики в setUp + addCleanup, тест изоляции"
+ART:tests/test_regressions.py:0000000000000000000000000000000000000000000000000000000000000001
+CHK:verify.py:PASS:"71/71 + 14/14, exit 0"
+NXT:"critic: codex"
+→ grammar=True receiver=accept bytes AML/JSON=337/526
+
+### критик возвращает с находкой
+!AML:2|HANDOFF|aml-nam|codex→antigravity|1|1790200600000|60000|tsk:T13|st:BLOCKED
+SUM:"critic: return"
+CHK:F5:FAIL:"python -m pytest -p no:randomly tests/test_regressions.py оставляет ключ в кэше"
+NXT:"исправить F5, вернуть в review"
+→ grammar=True receiver=accept bytes AML/JSON=270/442
+
+### вердикт критика одним фреймом
+!AML:2|RES|aml-nam|codex→claude|2|1790200601000|60000|rel:T13|*REJ:#T13|rs:STALLED
+→ grammar=True receiver=accept bytes AML/JSON=84/252
+
+### куратор спрашивает статус
+!AML:2|QUERY|aml-nam|claude→antigravity|1|1790200700000|60000|?STATUS:#T18
+→ grammar=True receiver=accept bytes AML/JSON=76/193
+
+### отказ: агент на паузе по лимиту
+!AML:2|ERR|aml-nam|antigravity→claude|2|1790200701000|60000|err:BUSY|rel:T18
+→ grammar=True receiver=accept bytes AML/JSON=78/188
+
+### локальная модель-критик (советующий вердикт)
+!AML:2|RES|aml-nam|gptoss→claude|1|1790200800000|60000|rel:T18|*ACC:#T18
+→ grammar=True receiver=accept bytes AML/JSON=74/211
+
+✗ gptoss не вправе слать HANDOFF → отказ: unauthorized kind
+✗ фрейм просрочен (TTL 60 с) → отказ: expired/future frame
+✗ подмена отправителя → отказ: peer identity mismatch
+✗ повтор того же seq → отказ: replay/out-of-order
+ИТОГО байт AML/JSON: 919/1812 (−50%); всё валидно: True
