@@ -1,0 +1,947 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:neroai:nam:2",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "v",
+    "id",
+    "session",
+    "sender",
+    "recipient",
+    "seq",
+    "sent_ms",
+    "ttl_ms",
+    "kind",
+    "body"
+  ],
+  "properties": {
+    "v": {
+      "enum": [
+        "NAM/1",
+        "NAM/2"
+      ]
+    },
+    "id": {
+      "$ref": "#/$defs/id"
+    },
+    "session": {
+      "$ref": "#/$defs/id"
+    },
+    "sender": {
+      "$ref": "#/$defs/id"
+    },
+    "recipient": {
+      "$ref": "#/$defs/id"
+    },
+    "seq": {
+      "$ref": "#/$defs/int"
+    },
+    "sent_ms": {
+      "$ref": "#/$defs/int"
+    },
+    "ttl_ms": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 60000
+    },
+    "kind": {
+      "enum": [
+        "hello",
+        "state",
+        "delta",
+        "proposal",
+        "query",
+        "result",
+        "error",
+        "handoff"
+      ]
+    },
+    "schema": {
+      "$ref": "#/$defs/int"
+    },
+    "trace_id": {
+      "$ref": "#/$defs/id"
+    },
+    "body": {
+      "type": "object"
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "v": {
+            "const": "NAM/1"
+          }
+        },
+        "required": [
+          "v"
+        ]
+      },
+      "then": {
+        "not": {
+          "anyOf": [
+            {
+              "required": [
+                "schema"
+              ]
+            },
+            {
+              "required": [
+                "trace_id"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "kind": {
+            "const": "hello"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "body": {
+            "$ref": "#/$defs/hello"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "kind": {
+            "const": "state"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "body": {
+            "$ref": "#/$defs/state"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "kind": {
+            "const": "delta"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "body": {
+            "$ref": "#/$defs/delta"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "kind": {
+            "const": "proposal"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "body": {
+            "$ref": "#/$defs/proposal"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "kind": {
+            "const": "query"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "body": {
+            "$ref": "#/$defs/query"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "kind": {
+            "const": "result"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "body": {
+            "$ref": "#/$defs/result"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "kind": {
+            "const": "error"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "body": {
+            "$ref": "#/$defs/error"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "kind": {
+            "const": "handoff"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "body": {
+            "$ref": "#/$defs/handoff"
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 80,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]*$"
+    },
+    "int": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9007199254740991
+    },
+    "metric": {
+      "type": [
+        "number",
+        "null"
+      ],
+      "minimum": 0,
+      "maximum": 1
+    },
+    "position": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 3,
+      "items": {
+        "type": "number",
+        "minimum": -100000,
+        "maximum": 100000
+      }
+    },
+    "actionType": {
+      "enum": [
+        "ADVANCE",
+        "ASSAULT",
+        "HOLD",
+        "RETREAT",
+        "RECON",
+        "REQUEST_FIRE",
+        "BOARD",
+        "DISEMBARK",
+        "REPAIR",
+        "SET_ROE",
+        "SET_SECTOR",
+        "REPORT",
+        "CANCEL",
+        "REQUEST_SUPPORT",
+        "SHARE_INTEL",
+        "NEGOTIATE",
+        "DESIGNATE",
+        "AUTONOMY",
+        "REASSIGN",
+        "PAUSE",
+        "RESUME",
+        "RETURN",
+        "APPROVE"
+      ]
+    },
+    "entities": {
+      "type": "array",
+      "maxItems": 128,
+      "items": {
+        "$ref": "#/$defs/entity"
+      }
+    },
+    "entityUpdate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "pos": {
+          "$ref": "#/$defs/position"
+        },
+        "role": {
+          "enum": [
+            "INFANTRY",
+            "RECON",
+            "MECHANIZED",
+            "ARMORED",
+            "UNKNOWN"
+          ]
+        },
+        "hp": {
+          "$ref": "#/$defs/metric"
+        },
+        "ammo": {
+          "$ref": "#/$defs/metric"
+        },
+        "suppression": {
+          "$ref": "#/$defs/metric"
+        },
+        "count": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 200
+        }
+      },
+      "minProperties": 2
+    },
+    "entityUpdates": {
+      "type": "array",
+      "maxItems": 128,
+      "items": {
+        "$ref": "#/$defs/entityUpdate"
+      }
+    },
+    "ids": {
+      "type": "array",
+      "maxItems": 128,
+      "uniqueItems": true,
+      "items": {
+        "$ref": "#/$defs/id"
+      }
+    },
+    "hello": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "versions",
+        "actions"
+      ],
+      "properties": {
+        "versions": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 8,
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "NAM/1",
+              "NAM/2"
+            ]
+          }
+        },
+        "actions": {
+          "type": "array",
+          "maxItems": 23,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/actionType"
+          }
+        },
+        "schemas": {
+          "type": "array",
+          "maxItems": 32,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/int"
+          }
+        }
+      }
+    },
+    "state": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "world",
+        "rev",
+        "entities"
+      ],
+      "properties": {
+        "world": {
+          "$ref": "#/$defs/id"
+        },
+        "rev": {
+          "$ref": "#/$defs/int"
+        },
+        "entities": {
+          "$ref": "#/$defs/entities"
+        }
+      }
+    },
+    "delta": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "world",
+        "base",
+        "rev",
+        "upsert",
+        "remove"
+      ],
+      "properties": {
+        "world": {
+          "$ref": "#/$defs/id"
+        },
+        "base": {
+          "$ref": "#/$defs/int"
+        },
+        "rev": {
+          "$ref": "#/$defs/int"
+        },
+        "upsert": {
+          "$ref": "#/$defs/entities"
+        },
+        "updates": {
+          "$ref": "#/$defs/entityUpdates"
+        },
+        "remove": {
+          "$ref": "#/$defs/ids"
+        }
+      }
+    },
+    "reason": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "code",
+        "evidence"
+      ],
+      "properties": {
+        "code": {
+          "enum": [
+            "PLAYER_ORDER",
+            "STALLED",
+            "CONTACT",
+            "LOW_AMMO",
+            "MISSION_OBJECTIVE",
+            "NEED_KEYFRAME",
+            "UNKNOWN",
+            "LIMIT",
+            "STALE",
+            "CRITIC_RETURN",
+            "DEPENDS"
+          ]
+        },
+        "evidence": {
+          "$ref": "#/$defs/ids"
+        }
+      }
+    },
+    "action": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "op",
+        "target",
+        "type"
+      ],
+      "properties": {
+        "op": {
+          "$ref": "#/$defs/id"
+        },
+        "target": {
+          "$ref": "#/$defs/id"
+        },
+        "type": {
+          "$ref": "#/$defs/actionType"
+        },
+        "position": {
+          "$ref": "#/$defs/position"
+        },
+        "roe": {
+          "enum": [
+            "HOLD_FIRE",
+            "RETURN_FIRE",
+            "OPEN_FIRE"
+          ]
+        },
+        "support": {
+          "enum": [
+            "ARTILLERY",
+            "MORTAR",
+            "CAS"
+          ]
+        },
+        "to": {
+          "$ref": "#/$defs/id"
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "enum": [
+                  "ADVANCE",
+                  "ASSAULT",
+                  "RETREAT",
+                  "REQUEST_FIRE",
+                  "SET_SECTOR",
+                  "DESIGNATE"
+                ]
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "position"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "SET_ROE"
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "roe"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "REQUEST_FIRE"
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "support"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "REASSIGN"
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "to"
+            ]
+          }
+        }
+      ]
+    },
+    "proposal": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "state_sender",
+        "world",
+        "rev",
+        "actions",
+        "reason"
+      ],
+      "properties": {
+        "state_sender": {
+          "$ref": "#/$defs/id"
+        },
+        "world": {
+          "$ref": "#/$defs/id"
+        },
+        "rev": {
+          "$ref": "#/$defs/int"
+        },
+        "actions": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 3,
+          "items": {
+            "$ref": "#/$defs/action"
+          }
+        },
+        "reason": {
+          "$ref": "#/$defs/reason"
+        }
+      }
+    },
+    "query": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "request",
+        "related"
+      ],
+      "properties": {
+        "request": {
+          "enum": [
+            "KEYFRAME",
+            "STATUS",
+            "EXPLAIN"
+          ]
+        },
+        "related": {
+          "$ref": "#/$defs/id"
+        }
+      }
+    },
+    "result": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "related",
+        "status",
+        "operations"
+      ],
+      "properties": {
+        "related": {
+          "$ref": "#/$defs/id"
+        },
+        "status": {
+          "enum": [
+            "ACCEPTED",
+            "REJECTED",
+            "EXECUTED",
+            "FAILED"
+          ]
+        },
+        "operations": {
+          "$ref": "#/$defs/ids"
+        },
+        "reason": {
+          "$ref": "#/$defs/reason"
+        }
+      }
+    },
+    "handoff": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "task",
+        "status",
+        "summary",
+        "artifacts",
+        "checks",
+        "next"
+      ],
+      "properties": {
+        "task": {
+          "$ref": "#/$defs/id"
+        },
+        "status": {
+          "enum": [
+            "PLANNED",
+            "IN_PROGRESS",
+            "BLOCKED",
+            "COMPLETE"
+          ]
+        },
+        "summary": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1000
+        },
+        "artifacts": {
+          "type": "array",
+          "maxItems": 32,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "path",
+              "sha256"
+            ],
+            "properties": {
+              "path": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 240
+              },
+              "sha256": {
+                "type": "string",
+                "pattern": "^[a-f0-9]{64}$"
+              }
+            }
+          }
+        },
+        "checks": {
+          "type": "array",
+          "maxItems": 16,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "name",
+              "result",
+              "evidence"
+            ],
+            "properties": {
+              "name": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 100
+              },
+              "result": {
+                "enum": [
+                  "PASS",
+                  "FAIL",
+                  "UNVERIFIED"
+                ]
+              },
+              "evidence": {
+                "type": "string",
+                "maxLength": 500
+              }
+            }
+          }
+        },
+        "next": {
+          "type": "string",
+          "maxLength": 1000
+        }
+      }
+    },
+    "error": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "related",
+        "code"
+      ],
+      "properties": {
+        "related": {
+          "$ref": "#/$defs/id"
+        },
+        "code": {
+          "enum": [
+            "INVALID",
+            "EXPIRED",
+            "UNAUTHORIZED",
+            "REPLAY",
+            "RESYNC",
+            "UNSUPPORTED",
+            "BUSY"
+          ]
+        }
+      }
+    },
+    "fieldEntity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "kind",
+        "pos",
+        "observed_ms"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "kind": {
+          "enum": [
+            "group",
+            "unit",
+            "vehicle",
+            "contact"
+          ]
+        },
+        "pos": {
+          "$ref": "#/$defs/position"
+        },
+        "observed_ms": {
+          "$ref": "#/$defs/int"
+        },
+        "side": {
+          "enum": [
+            "west",
+            "east",
+            "independent",
+            "civilian",
+            "unknown"
+          ]
+        },
+        "callsign": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80
+        },
+        "role": {
+          "enum": [
+            "INFANTRY",
+            "RECON",
+            "MECHANIZED",
+            "ARMORED",
+            "UNKNOWN"
+          ]
+        },
+        "hp": {
+          "$ref": "#/$defs/metric"
+        },
+        "ammo": {
+          "$ref": "#/$defs/metric"
+        },
+        "suppression": {
+          "$ref": "#/$defs/metric"
+        },
+        "count": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 200
+        },
+        "source": {
+          "$ref": "#/$defs/id"
+        }
+      }
+    },
+    "taskEntity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "kind",
+        "status",
+        "assignee",
+        "critic",
+        "priority",
+        "observed_ms"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "kind": {
+          "const": "task"
+        },
+        "status": {
+          "enum": [
+            "backlog",
+            "in_progress",
+            "review",
+            "approval",
+            "done",
+            "closed"
+          ]
+        },
+        "assignee": {
+          "$ref": "#/$defs/id"
+        },
+        "critic": {
+          "$ref": "#/$defs/id"
+        },
+        "priority": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 99
+        },
+        "observed_ms": {
+          "$ref": "#/$defs/int"
+        },
+        "depends": {
+          "type": "array",
+          "maxItems": 16,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/id"
+          }
+        }
+      }
+    },
+    "agentEntity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "kind",
+        "state",
+        "limit",
+        "weekly",
+        "observed_ms"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "kind": {
+          "const": "agent"
+        },
+        "state": {
+          "enum": [
+            "active",
+            "stale",
+            "watching",
+            "offline"
+          ]
+        },
+        "limit": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 0,
+          "maximum": 100
+        },
+        "weekly": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 0,
+          "maximum": 100
+        },
+        "observed_ms": {
+          "$ref": "#/$defs/int"
+        },
+        "task": {
+          "$ref": "#/$defs/id"
+        }
+      }
+    },
+    "entity": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/fieldEntity"
+        },
+        {
+          "$ref": "#/$defs/taskEntity"
+        },
+        {
+          "$ref": "#/$defs/agentEntity"
+        }
+      ]
+    }
+  }
+}
